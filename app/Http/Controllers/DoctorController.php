@@ -223,6 +223,7 @@ class DoctorController extends Controller
             return view('error.403');
         }
     }
+
     /**
      * Display the specified resource.
      *
