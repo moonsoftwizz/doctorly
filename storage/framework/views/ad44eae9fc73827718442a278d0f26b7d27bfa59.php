@@ -299,7 +299,7 @@
                                         <tr>
                                             <td><?php echo e($loop->index + 1); ?></td>
                                             <td><?php echo e($item->first_name); ?> <?php echo e($item->last_name); ?></td>
-                                            <td><?php echo e($item->doctor->degree); ?></td>
+                                            
                                             <td><?php echo e($item->mobile); ?></td>
                                             <td><?php echo e($item->email); ?></td>
                                             <td>

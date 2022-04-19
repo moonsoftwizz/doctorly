@@ -296,7 +296,7 @@
                                         <tr>
                                             <td>{{ $loop->index + 1 }}</td>
                                             <td>{{ $item->first_name }} {{ $item->last_name }}</td>
-                                            <td>{{ $item->doctor->degree }}</td>
+                                            {{--<td>{{ $item->doctor->degree }}</td>--}}
                                             <td>{{ $item->mobile }}</td>
                                             <td>{{ $item->email }}</td>
                                             <td>

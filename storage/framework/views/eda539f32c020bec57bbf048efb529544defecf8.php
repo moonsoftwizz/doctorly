@@ -1,3 +1,4 @@
+
 <?php $__env->startSection('title'); ?> <?php echo e(__('List of Doctors')); ?> <?php $__env->stopSection(); ?>
 <?php $__env->startSection('body'); ?>
 

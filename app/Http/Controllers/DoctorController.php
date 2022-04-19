@@ -98,24 +98,31 @@ class DoctorController extends Controller
             $slot_time = $request->slot_time;
             $validatedData = $request->validate(
                 [
-                    'first_name' => 'required|alpha',
-                    'last_name' => 'required|alpha',
+                    'full_name' => 'required|alpha',
+                    'user_sex'=>'',
+                    'zip_code'=>'',
+                    'user_address'=>'',
+                    'city'=>'',
                     'mobile' => 'required|numeric|digits:10',
                     'email' => 'required|email|unique:users',
-                    'title' => 'required',
-                    'fees' => 'required',
-                    'degree' => 'required',
-                    'experience' => 'required',
-                    'slot_time' => 'required',
-                    'mon' => 'required_without_all:tue,wen,thu,fri,sat,sun',
-                    'tue' => 'required_without_all:mon,wen,thu,fri,sat,sun',
-                    'wen' => 'required_without_all:mon,tue,thu,fri,sat,sun',
-                    'thu' => 'required_without_all:mon,wen,tue,fri,sat,sun',
-                    'fri' => 'required_without_all:wen,tue,mon,thu,sat,sun',
-                    'sat' => 'required_without_all:wen,tue,mon,thu,fri,sun',
-                    'sun' => 'required_without_all:wen,tue,mon,thu,fri,sat',
-                    'TimeSlot.*.from' => 'required',
-                    'TimeSlot.*.to' => 'required',
+                    'doc_CPF',
+                    'doc_CRM',
+                    'doc_Advice',
+                    'doc_specialty',
+                    'title' => '',
+                    'fees' => '',
+                    'degree' => '',
+                    'experience' => '',
+                    'slot_time' => '',
+//                    'mon' => 'required_without_all:tue,wen,thu,fri,sat,sun',
+//                    'tue' => 'required_without_all:mon,wen,thu,fri,sat,sun',
+//                    'wen' => 'required_without_all:mon,tue,thu,fri,sat,sun',
+//                    'thu' => 'required_without_all:mon,wen,tue,fri,sat,sun',
+//                    'fri' => 'required_without_all:wen,tue,mon,thu,sat,sun',
+//                    'sat' => 'required_without_all:wen,tue,mon,thu,fri,sun',
+//                    'sun' => 'required_without_all:wen,tue,mon,thu,fri,sat',
+//                    'TimeSlot.*.from' => 'required',
+//                    'TimeSlot.*.to' => 'required',
                     'profile_photo' => 'image|mimes:jpg,png,jpeg,gif,svg|max:500'
                 ],
             );
@@ -131,8 +138,6 @@ class DoctorController extends Controller
             try {
                 $user = Sentinel::getUser();
                 if ($request->TimeSlot[0]['from'] == null && $request->TimeSlot[0]['to'] == null) {
-                    return redirect()->back()->with('error', 'Add available time');
-                } else {
                     $validatedData['password'] = Config::get('app.DEFAULT_PASSWORD');
                     $validatedData['created_by'] = $user->id;
                     $validatedData['updated_by'] = $user->id;
@@ -143,67 +148,73 @@ class DoctorController extends Controller
                     $role->users()->attach($doctor);
                     $doctor_details = new Doctor();
                     $doctor_details->user_id = $doctor->id;
+                    $doctor_details->doc_CPF = $request->doc_CPF;
+                    $doctor_details->doc_CRM = $request->doc_CRM;
+                    $doctor_details->doc_Advice = $request->doc_Advice;
+                    $doctor_details->doc_specialty = $request->doc_specialty;
                     $doctor_details->title = $request->title;
                     $doctor_details->degree = $request->degree;
                     $doctor_details->experience = $request->experience;
                     $doctor_details->fees = $request->fees;
                     $doctor_details->slot_time = $request->slot_time;
                     $doctor_details->save();
-                    // Doctor Available day record add
-                    $availableDay = new DoctorAvailableDay();
-                    $availableDay->doctor_id = $doctor->id;
-                    if ($availableDay->mon = $request->mon !== Null) {
-                        $availableDay->mon = $request->mon;
-                    }
-                    if ($availableDay->tue = $request->tue !== Null) {
-                        $availableDay->tue = $request->tue;
-                    }
-                    if ($availableDay->wen = $request->wen !== Null) {
-                        $availableDay->wen = $request->wen;
-                    }
-                    if ($availableDay->thu = $request->thu !== Null) {
-                        $availableDay->thu = $request->thu;
-                    }
-                    if ($availableDay->fri = $request->fri !== Null) {
-                        $availableDay->fri = $request->fri;
-                    }
-                    if ($availableDay->sat = $request->sat !== Null) {
-                        $availableDay->sat = $request->sat;
-                    }
-                    if ($availableDay->sun = $request->sun !== Null) {
-                        $availableDay->sun = $request->sun;
-                    }
-                    $availableDay->save();
-                    foreach ($request->TimeSlot as $key => $item) {
-                        $availableTime = new DoctorAvailableTime();
-                        $availableTime->doctor_id = $doctor->id;
-                        $availableTime->from = $item['from'];
-                        $availableTime->to = $item['to'];
-                        $availableTime->save();
-                        $start_datetime = Carbon::parse($item['from'])->format('H:i:s');
-                        $end_datetime = Carbon::parse($item['to'])->format('H:i:s');
-                        $start_datetime_carbon = Carbon::parse($item['from']);
-                        $end_datetime_carbon = Carbon::parse($item['to']);
-                        $totalDuration = $end_datetime_carbon->diffInMinutes($start_datetime_carbon);
-                        $totalSlots = $totalDuration / $slot_time;
-                        for ($a = 0; $a <= $totalSlots; $a++) {
-                            $slot_time_start_min = $a * $slot_time;
-                            $slot_time_end_min = $slot_time_start_min + $slot_time;
-                            $slot_time_start = Carbon::parse($start_datetime)->addMinute($slot_time_start_min)->format('H:i:s');
-                            $slot_time_end = Carbon::parse($start_datetime)->addMinute($slot_time_end_min)->format('H:i:s');
-                            if ($slot_time_end <= $end_datetime) {
-                                // add time slot here
-                                $time = $slot_time_start . '<=' . $slot_time_end . '<br>';
-                                $availableSlot = new DoctorAvailableSlot();
-                                $availableSlot->doctor_id = $doctor->id;
-                                $availableSlot->doctor_available_time_id = $availableTime->id;
-                                $availableSlot->from = $slot_time_start;
-                                $availableSlot->to = $slot_time_end;
-                                $availableSlot->save();
-                            }
-                        }
-                    }
+//                    // Doctor Available day record add
+//                    $availableDay = new DoctorAvailableDay();
+//                    $availableDay->doctor_id = $doctor->id;
+//                    if ($availableDay->mon = $request->mon !== Null) {
+//                        $availableDay->mon = $request->mon;
+//                    }
+//                    if ($availableDay->tue = $request->tue !== Null) {
+//                        $availableDay->tue = $request->tue;
+//                    }
+//                    if ($availableDay->wen = $request->wen !== Null) {
+//                        $availableDay->wen = $request->wen;
+//                    }
+//                    if ($availableDay->thu = $request->thu !== Null) {
+//                        $availableDay->thu = $request->thu;
+//                    }
+//                    if ($availableDay->fri = $request->fri !== Null) {
+//                        $availableDay->fri = $request->fri;
+//                    }
+//                    if ($availableDay->sat = $request->sat !== Null) {
+//                        $availableDay->sat = $request->sat;
+//                    }
+//                    if ($availableDay->sun = $request->sun !== Null) {
+//                        $availableDay->sun = $request->sun;
+//                    }
+//                    $availableDay->save();
+//                    foreach ($request->TimeSlot as $key => $item) {
+//                        $availableTime = new DoctorAvailableTime();
+//                        $availableTime->doctor_id = $doctor->id;
+//                        $availableTime->from = $item['from'];
+//                        $availableTime->to = $item['to'];
+//                        $availableTime->save();
+//                        $start_datetime = Carbon::parse($item['from'])->format('H:i:s');
+//                        $end_datetime = Carbon::parse($item['to'])->format('H:i:s');
+//                        $start_datetime_carbon = Carbon::parse($item['from']);
+//                        $end_datetime_carbon = Carbon::parse($item['to']);
+//                        $totalDuration = $end_datetime_carbon->diffInMinutes($start_datetime_carbon);
+//                        $totalSlots = $totalDuration / $slot_time;
+//                        for ($a = 0; $a <= $totalSlots; $a++) {
+//                            $slot_time_start_min = $a * $slot_time;
+//                            $slot_time_end_min = $slot_time_start_min + $slot_time;
+//                            $slot_time_start = Carbon::parse($start_datetime)->addMinute($slot_time_start_min)->format('H:i:s');
+//                            $slot_time_end = Carbon::parse($start_datetime)->addMinute($slot_time_end_min)->format('H:i:s');
+//                            if ($slot_time_end <= $end_datetime) {
+//                                // add time slot here
+//                                $time = $slot_time_start . '<=' . $slot_time_end . '<br>';
+//                                $availableSlot = new DoctorAvailableSlot();
+//                                $availableSlot->doctor_id = $doctor->id;
+//                                $availableSlot->doctor_available_time_id = $availableTime->id;
+//                                $availableSlot->from = $slot_time_start;
+//                                $availableSlot->to = $slot_time_end;
+//                                $availableSlot->save();
+//                            }
+//                        }
+//                    }
                     return redirect('doctor')->with('success', 'Doctor created successfully!');
+                } else {
+
                 }
             } catch (Exception $e) {
                 return redirect('doctor')->with('error', 'Something went wrong!!! ' . $e->getMessage());
@@ -306,21 +317,14 @@ class DoctorController extends Controller
         $user = Sentinel::getUser();
         if ($user->hasAccess('doctor.update')) {
             $validatedData = $request->validate([
-                'first_name' => 'required|alpha',
-                'last_name' => 'required|alpha',
-                'mobile' => 'required|numeric|digits:10',
-                'email' => 'required|email',
-                'title' => 'required',
-                'fees' => 'required',
-                'degree' => 'required',
-                'experience' => 'required',
-                'mon' => 'required_without_all:tue,wen,thu,fri,sat,sun',
-                'tue' => 'required_without_all:mon,wen,thu,fri,sat,sun',
-                'wen' => 'required_without_all:mon,tue,thu,fri,sat,sun',
-                'thu' => 'required_without_all:mon,wen,tue,fri,sat,sun',
-                'fri' => 'required_without_all:wen,tue,mon,thu,sat,sun',
-                'sat' => 'required_without_all:wen,tue,mon,thu,fri,sun',
-                'sun' => 'required_without_all:wen,tue,mon,thu,fri,sat',
+                'first_name' => 'alpha',
+                'last_name' => 'alpha',
+                'mobile' => 'numeric|digits:10',
+                'email' => 'email',
+                'title' => '',
+                'fees' => '',
+                'degree' => '',
+                'experience' => '',
                 'profile_photo' =>'image|mimes:jpg,png,jpeg,gif,svg|max:500'
             ]);
             try {

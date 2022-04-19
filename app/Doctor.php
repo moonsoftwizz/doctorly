@@ -13,6 +13,10 @@ class Doctor extends Model
         'title',
         'degree',
         'experience',
+        'doc_CPF',
+        'doc_CRM',
+        'doc_Advice',
+        'doc_specialty',
         'is_deleted',
     ];
 }
