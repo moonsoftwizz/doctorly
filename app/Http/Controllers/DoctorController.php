@@ -103,7 +103,7 @@ class DoctorController extends Controller
                     'zip_code'=>'',
                     'user_address'=>'',
                     'city'=>'',
-                    'mobile' => 'required|numeric|digits:10',
+                    'mobile' => 'required|numeric|digits:11',
                     'email' => 'required|email|unique:users',
                     'doc_CPF',
                     'doc_CRM',

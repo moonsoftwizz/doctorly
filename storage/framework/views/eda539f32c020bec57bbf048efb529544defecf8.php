@@ -29,10 +29,10 @@
                             style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                                 <tr>
-                                    <th><?php echo e(__('Sr. No')); ?></th>
-                                    <th><?php echo e(__('Title')); ?></th>
+                                    <th><?php echo e(__('Id')); ?></th>
                                     <th><?php echo e(__('Name')); ?></th>
-                                    <th><?php echo e(__('Contact No')); ?></th>
+                                    <th><?php echo e(__('CRM')); ?></th>
+                                    <th><?php echo e(__('Phone')); ?></th>
                                     <th><?php echo e(__('Email')); ?></th>
                                     <?php if($role != 'patient'): ?>
                                         <th><?php echo e(__('Option')); ?></th>
@@ -54,12 +54,12 @@
                                 ?>
                                 <?php $__currentLoopData = $doctors; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <tr>
-                                        <td> <?php echo e($key + 1 + $per_page * ($currentpage - 1)); ?> </td>
+                                        <td><?php echo e($item->doctor['id']); ?> </td>
                                         <td>
-                                            <?php echo e($item->doctor['title']); ?>
+                                            <?php echo e($item->full_name); ?>
 
                                         </td>
-                                        <td> <?php echo e($item->first_name); ?> <?php echo e($item->last_name); ?> </td>
+                                        <td> <?php echo e($item->doctor['doc_CRM']); ?> </td>
                                         <td> <?php echo e($item->mobile); ?> </td>
                                         <td> <?php echo e($item->email); ?> </td>
                                         <?php if($role != 'patient'): ?>

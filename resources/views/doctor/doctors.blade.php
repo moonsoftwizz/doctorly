@@ -28,10 +28,10 @@
                             style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                                 <tr>
-                                    <th>{{ __('Sr. No') }}</th>
-                                    <th>{{ __('Title') }}</th>
+                                    <th>{{ __('Id') }}</th>
                                     <th>{{ __('Name') }}</th>
-                                    <th>{{ __('Contact No') }}</th>
+                                    <th>{{ __('CRM') }}</th>
+                                    <th>{{ __('Phone') }}</th>
                                     <th>{{ __('Email') }}</th>
                                     @if ($role != 'patient')
                                         <th>{{ __('Option') }}</th>
@@ -53,11 +53,11 @@
                                 @endphp
                                 @foreach ($doctors as $key => $item)
                                     <tr>
-                                        <td> {{ $key + 1 + $per_page * ($currentpage - 1) }} </td>
+                                        <td>{{ $item->doctor['id'] }} </td>
                                         <td>
-                                            {{ $item->doctor['title'] }}
+                                            {{ $item->full_name }}
                                         </td>
-                                        <td> {{ $item->first_name }} {{ $item->last_name }} </td>
+                                        <td> {{ $item->doctor['doc_CRM'] }} </td>
                                         <td> {{ $item->mobile }} </td>
                                         <td> {{ $item->email }} </td>
                                         @if ($role != 'patient')

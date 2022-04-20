@@ -90,31 +90,44 @@ class PatientController extends Controller
         $user = Sentinel::getUser();
         if ($user->hasAccess('patient.create')) {
             $validatedData = $request->validate([
-                'first_name' => 'required|alpha',
-                'last_name' => 'required|alpha',
-                'mobile' => 'required|numeric|digits:10',
+                'full_name' => 'required|alpha',
+                'user_sex'=>'',
+                'zip_code'=>'',
+                'user_address'=>'',
+                'city'=>'',
+                'patient_dob'=>'',
+                'patient_Age'=>'',
+                'patient_rg'=>'',
+                'patient_CPF'=>'',
+                'patient_responsible'=>'',
+                'patient_health'=>'',
+                'patient_company'=>'',
+                'patient_enrollment'=>'',
+                'patient_plan'=>'',
+                'patient_observation'=>'',
+                'patient_social_name'=>'',
+
+                'mobile' => 'required|numeric|digits:11',
                 'email' => 'required|email|unique:users',
-                'age' => 'required|numeric',
-                'address' => 'required',
-                'gender' => 'required',
-                'height' => 'required',
-                'b_group' => 'required',
-                'pulse' => 'required',
-                'allergy' => 'required',
-                'weight' => 'required',
-                'b_pressure' => 'required',
-                'respiration' => 'required',
-                'diet' => 'required',
+
+                'height' => '',
+                'b_group' => '',
+                'pulse' => '',
+                'allergy' => '',
+                'weight' => '',
+                'b_pressure' => '',
+                'respiration' => '',
+                'diet' => '',
                 'profile_photo' => 'image|mimes:jpg,png,jpeg,gif,svg|max:500'
             ]);
-            if ($request->profile_photo != null) {
-                $request->validate([
-                    'profile_photo' => 'image'
-                ]);
-                $fileName = now()->timestamp . '.' . $request->file('profile_photo')->extension();
-                $request->profile_photo->storeAs('images/users', $fileName, 'public');
-                $validatedData['profile_photo'] = $fileName;
-            }
+//            if ($request->profile_photo != null) {
+//                $request->validate([
+//                    'profile_photo' => 'image'
+//                ]);
+//                $fileName = now()->timestamp . '.' . $request->file('profile_photo')->extension();
+//                $request->profile_photo->storeAs('images/users', $fileName, 'public');
+//                $validatedData['profile_photo'] = $fileName;
+//            }
             try {
                 $user = Sentinel::getUser();
                 // Set Default Password for Doctor
@@ -128,6 +141,19 @@ class PatientController extends Controller
                 $role->users()
                     ->attach($patient);
                 $validatedData['user_id'] = $patient->id;
+                $validatedData['patient_dob'] = $patient->patient_dob;
+                $validatedData['patient_Age'] = $patient->patient_Age;
+                $validatedData['patient_rg'] = $patient->patient_rg;
+                $validatedData['patient_CPF'] = $patient->patient_CPF;
+                $validatedData['patient_responsible'] = $patient->patient_responsible;
+                $validatedData['patient_health'] = $patient->patient_health;
+                $validatedData['patient_company'] = $patient->patient_company;
+                $validatedData['patient_enrollment'] = $patient->patient_enrollment;
+                $validatedData['patient_plan'] = $patient->patient_plan;
+                $validatedData['patient_observation'] = $patient->patient_observation;
+                $validatedData['patient_social_name'] = $patient->patient_social_name;
+
+
                 $this->patient_info->create($validatedData);
                 $this->medical_info->create($validatedData);
                 return redirect('patient')->with('success', 'Patient created successfully!');
