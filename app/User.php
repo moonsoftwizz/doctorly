@@ -40,5 +40,8 @@ class User extends EloquentUser
     function doctor(){
         return $this->hasOne(Doctor::class);
     }
+    function patient(){
+        return $this->hasOne(Patient::class);
+    }
 
 }

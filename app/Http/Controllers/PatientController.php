@@ -51,7 +51,7 @@ class PatientController extends Controller
         if ($user->hasAccess('patient.list')) {
             $role = $user->roles[0]->slug;
             $patient_role = Sentinel::findRoleBySlug('patient');
-            $patients = $patient_role->users()->with('roles')->where('is_deleted', 0)->orderByDesc('id')->paginate($this->limit);
+            $patients = $patient_role->users()->with(['roles'])->where('is_deleted', 0)->orderByDesc('id')->paginate($this->limit);
             return view('patient.patients', compact('user', 'role', 'patients'));
         } else {
              return view('error.403');
@@ -90,7 +90,7 @@ class PatientController extends Controller
         $user = Sentinel::getUser();
         if ($user->hasAccess('patient.create')) {
             $validatedData = $request->validate([
-                'full_name' => 'required|alpha',
+                'full_name' => '',
                 'user_sex'=>'',
                 'zip_code'=>'',
                 'user_address'=>'',
@@ -107,8 +107,8 @@ class PatientController extends Controller
                 'patient_observation'=>'',
                 'patient_social_name'=>'',
 
-                'mobile' => 'required|numeric|digits:11',
-                'email' => 'required|email|unique:users',
+                'mobile' => '',
+                'email' => '',
 
                 'height' => '',
                 'b_group' => '',
@@ -140,18 +140,29 @@ class PatientController extends Controller
                 $role = Sentinel::findRoleBySlug('patient');
                 $role->users()
                     ->attach($patient);
-                $validatedData['user_id'] = $patient->id;
-                $validatedData['patient_dob'] = $patient->patient_dob;
-                $validatedData['patient_Age'] = $patient->patient_Age;
-                $validatedData['patient_rg'] = $patient->patient_rg;
-                $validatedData['patient_CPF'] = $patient->patient_CPF;
-                $validatedData['patient_responsible'] = $patient->patient_responsible;
-                $validatedData['patient_health'] = $patient->patient_health;
-                $validatedData['patient_company'] = $patient->patient_company;
-                $validatedData['patient_enrollment'] = $patient->patient_enrollment;
-                $validatedData['patient_plan'] = $patient->patient_plan;
-                $validatedData['patient_observation'] = $patient->patient_observation;
-                $validatedData['patient_social_name'] = $patient->patient_social_name;
+                //$validatedData['user_id'] = $patient->id;
+
+                $patient_details = new Patient();
+
+                $patient_details->user_id = $patient->id;
+
+                $patient_details->patient_dob = $validatedData['patient_dob'];
+                $patient_details->patient_Age = $validatedData['patient_Age'];
+                $patient_details->patient_rg = $validatedData['patient_rg'];
+                $patient_details->patient_CPF = $validatedData['patient_CPF'];
+
+                $patient_details->patient_responsible = $validatedData['patient_responsible'];
+                $patient_details->patient_health = $validatedData['patient_health'];
+                $patient_details->patient_company = $validatedData['patient_company'];
+                $patient_details->patient_enrollment = $validatedData['patient_enrollment'];
+
+                $patient_details->patient_plan = $validatedData['patient_plan'];
+                $patient_details->patient_observation = $validatedData['patient_observation'];
+                $patient_details->patient_social_name = $validatedData['patient_social_name'];
+
+
+                $patient_details->save();
+
 
 
                 $this->patient_info->create($validatedData);

@@ -25,10 +25,14 @@
                             style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                                 <tr>
-                                    <th><?php echo e(__('Sr. No')); ?></th>
+                                    <th><?php echo e(__('Id')); ?></th>
                                     <th><?php echo e(__('Name')); ?></th>
-                                    <th><?php echo e(__('Contact No')); ?></th>
+                                    <th><?php echo e(__('Social Name')); ?></th>
+                                    <th><?php echo e(__('Birth date')); ?></th>
+                                    <th><?php echo e(__('CPF')); ?></th>
+                                    <th><?php echo e(__('Phone')); ?></th>
                                     <th><?php echo e(__('Email')); ?></th>
+                                    <th><?php echo e(__('Health insurance')); ?></th>
                                     <th><?php echo e(__('Option')); ?></th>
                                 </tr>
                             </thead>
@@ -45,14 +49,26 @@
                                 <?php
                                     $currentpage = $patients->currentPage();
                                 ?>
-                                <?php $__currentLoopData = $patients; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $patient): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <tr>
-                                        <td><?php echo e($loop->index + 1 + $per_page * ($currentpage - 1)); ?></td>
-                                        <td><a href="<?php echo e(url('patient/' . $patient->id)); ?>"><?php echo e($patient->first_name); ?>
 
-                                                <?php echo e($patient->last_name); ?></a></td>
+                                <?php $__currentLoopData = $patients; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $patient): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <tr>
+
+                                        <td><?php echo e($patient->id); ?> </td>
+                                        <td><?php echo e($patient->full_name); ?></td>
+                                        <td><?php echo e($patient->patient['patient_social_name']); ?></td>
+                                        <td><?php echo e($patient->patient['patient_dob']); ?></td>
+                                        <td><?php echo e($patient->patient['patient_CPF']); ?></td>
                                         <td><?php echo e($patient->mobile); ?></td>
                                         <td><?php echo e($patient->email); ?></td>
+                                        <td><?php echo e($patient->patient['patient_health']); ?></td>
+
+
+
+                                        
+                                               
+
+
+
                                         <td>
                                             <a href="<?php echo e(url('patient/' . $patient->id)); ?>">
                                                 <button type="button"

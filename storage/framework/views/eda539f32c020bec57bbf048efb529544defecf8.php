@@ -54,6 +54,7 @@
                                 ?>
                                 <?php $__currentLoopData = $doctors; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <tr>
+
                                         <td><?php echo e($item->doctor['id']); ?> </td>
                                         <td>
                                             <?php echo e($item->full_name); ?>

@@ -53,6 +53,7 @@
                                 @endphp
                                 @foreach ($doctors as $key => $item)
                                     <tr>
+
                                         <td>{{ $item->doctor['id'] }} </td>
                                         <td>
                                             {{ $item->full_name }}

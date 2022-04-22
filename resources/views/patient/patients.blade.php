@@ -25,10 +25,14 @@
                             style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                                 <tr>
-                                    <th>{{ __('Sr. No') }}</th>
+                                    <th>{{ __('Id') }}</th>
                                     <th>{{ __('Name') }}</th>
-                                    <th>{{ __('Contact No') }}</th>
+                                    <th>{{ __('Social Name') }}</th>
+                                    <th>{{ __('Birth date') }}</th>
+                                    <th>{{ __('CPF') }}</th>
+                                    <th>{{ __('Phone') }}</th>
                                     <th>{{ __('Email') }}</th>
+                                    <th>{{ __('Health insurance') }}</th>
                                     <th>{{ __('Option') }}</th>
                                 </tr>
                             </thead>
@@ -45,13 +49,26 @@
                                 @php
                                     $currentpage = $patients->currentPage();
                                 @endphp
-                                @foreach ($patients as $patient)
+
+                                @foreach ($patients as $key => $patient)
                                     <tr>
-                                        <td>{{ $loop->index + 1 + $per_page * ($currentpage - 1) }}</td>
-                                        <td><a href="{{ url('patient/' . $patient->id) }}">{{ $patient->first_name }}
-                                                {{ $patient->last_name }}</a></td>
+
+                                        <td>{{ $patient->id }} </td>
+                                        <td>{{ $patient->full_name }}</td>
+                                        <td>{{ $patient->patient['patient_social_name'] }}</td>
+                                        <td>{{ $patient->patient['patient_dob'] }}</td>
+                                        <td>{{ $patient->patient['patient_CPF'] }}</td>
                                         <td>{{ $patient->mobile }}</td>
                                         <td>{{ $patient->email }}</td>
+                                        <td>{{ $patient->patient['patient_health'] }}</td>
+
+
+
+                                        {{--<td><a href="{{ url('patient/' . $patient->id) }}">{{ $patient->full_name }}--}}
+                                               {{--</a></td>--}}
+
+
+
                                         <td>
                                             <a href="{{ url('patient/' . $patient->id) }}">
                                                 <button type="button"
