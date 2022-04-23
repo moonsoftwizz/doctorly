@@ -65,23 +65,23 @@
                                         <td> <?php echo e($item->email); ?> </td>
                                         <?php if($role != 'patient'): ?>
                                             <td>
-                                                <?php if($role == 'admin'): ?>
-                                                    <a href="<?php echo e(url('doctor/' . $item->id)); ?>">
-                                                        <button type="button"
-                                                            class="btn btn-primary btn-sm btn-rounded waves-effect waves-light mb-2 mb-md-0"
-                                                            title="View Profile">
-                                                            <i class="mdi mdi-eye"></i>
-                                                        </button>
-                                                    </a>
-                                                <?php elseif($role == 'receptionist'): ?>
-                                                    <a href="<?php echo e(url('doctor-view/' . $item->id)); ?>">
-                                                        <button type="button"
-                                                            class="btn btn-primary btn-sm btn-rounded waves-effect waves-light mb-2 mb-md-0"
-                                                            title="View Profile">
-                                                            <i class="mdi mdi-eye"></i>
-                                                        </button>
-                                                    </a>
-                                                <?php endif; ?>
+                                                
+                                                    
+                                                        
+                                                            
+                                                            
+                                                            
+                                                        
+                                                    
+                                                
+                                                    
+                                                        
+                                                            
+                                                            
+                                                            
+                                                        
+                                                    
+                                                
 
                                                 <?php if($role != 'receptionist'): ?>
                                                     <a href="<?php echo e(url('doctor/' . $item->id . '/edit')); ?>">

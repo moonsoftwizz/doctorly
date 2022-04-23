@@ -63,23 +63,23 @@
                                         <td> {{ $item->email }} </td>
                                         @if ($role != 'patient')
                                             <td>
-                                                @if ($role == 'admin')
-                                                    <a href="{{ url('doctor/' . $item->id) }}">
-                                                        <button type="button"
-                                                            class="btn btn-primary btn-sm btn-rounded waves-effect waves-light mb-2 mb-md-0"
-                                                            title="View Profile">
-                                                            <i class="mdi mdi-eye"></i>
-                                                        </button>
-                                                    </a>
-                                                @elseif ($role == 'receptionist')
-                                                    <a href="{{ url('doctor-view/' . $item->id) }}">
-                                                        <button type="button"
-                                                            class="btn btn-primary btn-sm btn-rounded waves-effect waves-light mb-2 mb-md-0"
-                                                            title="View Profile">
-                                                            <i class="mdi mdi-eye"></i>
-                                                        </button>
-                                                    </a>
-                                                @endif
+                                                {{--@if ($role == 'admin')--}}
+                                                    {{--<a href="{{ url('doctor/' . $item->id) }}">--}}
+                                                        {{--<button type="button"--}}
+                                                            {{--class="btn btn-primary btn-sm btn-rounded waves-effect waves-light mb-2 mb-md-0"--}}
+                                                            {{--title="View Profile">--}}
+                                                            {{--<i class="mdi mdi-eye"></i>--}}
+                                                        {{--</button>--}}
+                                                    {{--</a>--}}
+                                                {{--@elseif ($role == 'receptionist')--}}
+                                                    {{--<a href="{{ url('doctor-view/' . $item->id) }}">--}}
+                                                        {{--<button type="button"--}}
+                                                            {{--class="btn btn-primary btn-sm btn-rounded waves-effect waves-light mb-2 mb-md-0"--}}
+                                                            {{--title="View Profile">--}}
+                                                            {{--<i class="mdi mdi-eye"></i>--}}
+                                                        {{--</button>--}}
+                                                    {{--</a>--}}
+                                                {{--@endif--}}
 
                                                 @if ($role != 'receptionist')
                                                     <a href="{{ url('doctor/' . $item->id . '/edit') }}">
