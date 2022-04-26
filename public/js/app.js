@@ -8658,7 +8658,7 @@ module.exports = {
 
       return function() {
         var stamp = nativeNow(),
-            remaining = HOT_SPAN - (stamp - lastCalled);
+            remai`ning = HOT_SPAN - (stamp - lastCalled);
 
         lastCalled = stamp;
         if (remaining > 0) {

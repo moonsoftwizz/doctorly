@@ -59,7 +59,7 @@
                         <a href="<?php echo e(url('/')); ?>">
                             <button type="button" class="btn btn-primary waves-effect waves-light mb-4">
                                 <i
-                                    class="bx bx-arrow-back font-size-16 align-middle mr-2"></i><?php echo e(__('Back to Dashboard')); ?>
+                                        class="bx bx-arrow-back font-size-16 align-middle mr-2"></i><?php echo e(__('Back to Dashboard')); ?>
 
                             </button>
                         </a>
@@ -67,7 +67,7 @@
                         <a href="<?php echo e(url('doctor/' . $doctor->id)); ?>">
                             <button type="button" class="btn btn-primary waves-effect waves-light mb-4">
                                 <i
-                                    class="bx bx-arrow-back font-size-16 align-middle mr-2"></i><?php echo e(__('Back to Profile')); ?>
+                                        class="bx bx-arrow-back font-size-16 align-middle mr-2"></i><?php echo e(__('Back to Profile')); ?>
 
                             </button>
                         </a>
@@ -76,7 +76,7 @@
                     <a href="<?php echo e(url('doctor')); ?> ">
                         <button type="button" class="btn btn-primary waves-effect waves-light mb-4">
                             <i
-                                class="bx bx-arrow-back font-size-16 align-middle mr-2"></i><?php echo e(__('Back to Doctor List')); ?>
+                                    class="bx bx-arrow-back font-size-16 align-middle mr-2"></i><?php echo e(__('Back to Doctor List')); ?>
 
                         </button>
                     </a>
@@ -92,7 +92,7 @@
                             <?php echo csrf_field(); ?>
                             <?php if($doctor && $doctor_info): ?>
                                 <input type="hidden" name="_method" value="PATCH" />
-                            <?php endif; ?>
+                        <?php endif; ?>
 
                         <!-- my code start here-->
 
@@ -106,7 +106,14 @@
                                             <label class="control-label"><?php echo e(__('Doctor Name ')); ?><span
                                                         class="text-danger">*</span></label>
                                             <input type="text"
-                                                   class="form-control"
+                                                   class="form-control <?php $__errorArgs = ['full_name'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
                                                    name="full_name" id=""
                                                    value="<?php if($doctor && $doctor_info): ?><?php echo e($doctor->full_name); ?><?php elseif(old('full_name')): ?><?php echo e(old('full_name')); ?><?php endif; ?>"
                                                    placeholder="<?php echo e(__('Enter Doctor Name')); ?>">
@@ -116,16 +123,15 @@ if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
                                             <span class="invalid-feedback" role="alert">
-                                            <strong><?php echo e($message); ?></strong>
-                                            </span>
+                                                    <strong><?php echo e($message); ?></strong>
+                                                </span>
                                             <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
                                         </div>
                                         <div class="col-md-4">
-                                            <label class="control-label"><?php echo e(__(' Sex ')); ?><span
-                                                        class="text-danger">*</span></label>
+                                            <label class="control-label"><?php echo e(__(' Sex ')); ?></label>
                                             <select class="form-control" name="user_sex">
                                                 <option selected disabled>Choose</option>
                                                 <option>Male</option>
@@ -231,7 +237,7 @@ $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>"
-                                                   name="email" id="email" tabindex="3" value="<?php if($doctor && $doctor_info): ?><?php echo e($doctor->email); ?><?php elseif(old('email')): ?><?php echo e(old('email')); ?><?php endif; ?>"
+                                                   name="email" value="<?php if($doctor && $doctor_info): ?><?php echo e($doctor->email); ?><?php elseif(old('email')): ?><?php echo e(old('email')); ?><?php endif; ?>"
                                                    placeholder="<?php echo e(__('Enter Email')); ?>">
                                             <?php $__errorArgs = ['email'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -255,8 +261,7 @@ unset($__errorArgs, $__bag); ?>
                                     <blockquote><?php echo e(__('Address')); ?></blockquote>
                                     <div class="row">
                                         <div class="col-md-5 form-group">
-                                            <label class="control-label"><?php echo e(__('Zip Code ')); ?><span
-                                                        class="text-danger">*</span></label>
+                                            <label class="control-label"><?php echo e(__('Zip Code ')); ?></label>
                                             <input type="text"
                                                    class="form-control"
                                                    name="zip_code" id=""
@@ -264,8 +269,7 @@ unset($__errorArgs, $__bag); ?>
 
                                         </div>
                                         <div class="col-md-7 form-group">
-                                            <label class="control-label"><?php echo e(__('Street/ Ave ')); ?><span
-                                                        class="text-danger">*</span></label>
+                                            <label class="control-label"><?php echo e(__('Street/ Ave ')); ?></label>
                                             <input type="text"
                                                    class="form-control"
                                                    name="user_address" id=""
@@ -310,119 +314,119 @@ unset($__errorArgs, $__bag); ?>
 
 
                                     
-                                        
-                                            
-                                                    
-                                            
-                                                
-                                                    
-                                                
-                                            
-                                            
-                                                
-                                                    
-                                                
-                                            
-                                            
-                                                
-                                                    
-                                                
-                                            
-                                            
-                                                
-                                                    
-                                                
-                                            
-                                            
-                                                
-                                                    
-                                                
-                                            
-                                            
-                                                
-                                                    
-                                                
-                                            
-                                            
-                                                
-                                                    
-                                                
-                                            
-                                            
-                                                
-                                                    
-                                                
-                                            
-                                        
                                     
                                     
-                                        
-                                            
-                                                    
-                                            
-                                                
-                                                
-                                                
-                                                    
-                                                        
-                                                        
-                                                
-                                            
-                                            
-                                                
-                                                    
-                                                
-                                            
-                                        
                                     
                                     
-                                        
-                                            
-                                                
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
 
-                                                    
-                                                            
-                                                    
-                                                        
-                                                            
-                                                            
-                                                                
-                                                                    
-                                                                    
-                                                                
-                                                                    
-                                                                        
-                                                                    
-                                                                
-                                                            
-                                                        
-                                                        
-                                                            
-                                                            
-                                                                
-                                                                    
-                                                                    
-                                                                    
-                                                                
-                                                                    
-                                                                        
-                                                                    
-                                                                
-                                                            
-                                                        
-                                                        
-                                                            
-                                                                
-                                                                
-                                                        
-                                                    
-                                                
-                                                
-                                                
-                                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
 
-                                            
-                                        
+                                    
+                                    
                                     
                                 </div>
                                 <div class="col-md-6">
@@ -431,23 +435,23 @@ unset($__errorArgs, $__bag); ?>
 
 
                                     
-                                        
-                                            
-                                                    
-                                            
-                                                
-                                                
-                                                
-                                            
-                                                
-                                                
-                                                
-                                            
-                                                
-                                                    
-                                                
-                                            
-                                        
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
                                     
                                 </div>
                             </div>
@@ -478,131 +482,131 @@ unset($__errorArgs, $__bag); ?>
         <script src="<?php echo e(URL::asset('assets/js/pages/form-repeater.int.js')); ?>"></script>
         <script src="<?php echo e(URL::asset('assets/libs/select2/select2.min.js')); ?>"></script>
         <script src="<?php echo e(URL::asset('assets/js/pages/form-advanced.init.js')); ?>"></script>
-        
-            
-                
-                    
-                
-            
-            
-            
-                
-            
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
-            
-                
-                    
-                    
-                        
-                    
-                    
-                
-            
-            
-            
-            
-            
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
-            
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                    
-                    
-                    
-                
-                    
-                    
-                
-            
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
-            
-                
-                
-                    
-                        
-                    
-                
-            
+    
+    
+    
+    
+    
+    
+    
+    
 
-            
-                
-                
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                        
-                            
-                            
-                            
-                            
-                        
-                            
-                            
-                        
-                    
-                        
-                        
-                        
-                    
-                
-            
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
-            
-                
-                
-            
-            
-                
-                
-            
-            
-                
-                
-            
-            
-                
-                
-            
-            
-                
-                
-            
-            
-                
-                
-            
-            
-                
-                
-            
-        
-    <?php $__env->stopSection(); ?>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+<?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layouts.master-layouts', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp3\htdocs\doctorly\resources\views/doctor/doctor-details.blade.php ENDPATH**/ ?>

@@ -17,14 +17,29 @@
                 <div></div>
                 <div class="card">
                     <div class="card-body">
-                        <?php if($role != 'patient' && $role != 'receptionist'): ?>
-                            <a href=" <?php echo e(route('doctor.create')); ?> ">
-                                <button type="button" class="btn btn-primary waves-effect waves-light mb-4">
-                                    <i class="bx bx-plus font-size-16 align-middle mr-2"></i> <?php echo e(__('New Doctor')); ?>
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <?php if($role != 'patient' && $role != 'receptionist'): ?>
+                                    <a href=" <?php echo e(route('doctor.create')); ?> ">
+                                        <button type="button" class="btn btn-primary waves-effect waves-light mb-4">
+                                            <i class="bx bx-plus font-size-16 align-middle mr-2"></i> <?php echo e(__('New Doctor')); ?>
 
-                                </button>
-                            </a>
-                        <?php endif; ?>
+                                        </button>
+                                    </a>
+                                <?php endif; ?>
+                            </div>
+                            <div class="col-lg-9 text-right">
+                                <form action="">
+                                    <div class="form-group d-inline-flex">
+                                        <input class="form-control mr-1" type="text" placeholder="Search CRM" name="search_crm" value="<?php echo e($searchCRM); ?>" />
+                                        <input class="form-control mr-1" type="text" placeholder="Search Name" name="search_name" value="<?php echo e($search); ?>" />
+                                        <button type="submit" value="" class="btn btn-primary">Filter</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+
                         <table class="table table-bordered dt-responsive nowrap "
                             style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>

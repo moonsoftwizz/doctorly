@@ -46,22 +46,31 @@ class DoctorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $user = Sentinel::getUser();
         if ($user->hasAccess('doctor.list')) {
             $role = $user->roles[0]->slug;
             $user = Sentinel::getUser();
             $user_id = $user->id;
+            $doctor_sql = new Doctor();
             $role = $user->roles[0]->slug;
             $doctor_role = Sentinel::findRoleBySlug('doctor');
-            if ($role == 'receptionist') {
+
+            $search = $request['search_name'] ? : "";
+            $searchCRM = $request['search_crm'] ? : "";
+
+            //   ->orWhere('doc_CRM', $searchCRM)
+            if ($search != '' OR $searchCRM != '') {
+                $doctors = $doctor_role->users()->with(['roles', 'doctor'])->where('full_name', $search)->orderByDesc('id')->paginate($this->limit);
+            } else
+             if ($role == 'receptionist') {
                 $prescriptions_doctor = ReceptionListDoctor::where('reception_id', $user_id)->pluck('doctor_id');
                 $doctors = User::whereIN('id', $prescriptions_doctor)->where('is_deleted', 0)->paginate($this->limit);
             } else {
                 $doctors = $doctor_role->users()->with(['roles', 'doctor'])->where('is_deleted', 0)->orderByDesc('id')->paginate($this->limit);
             }
-            return view('doctor.doctors', compact('user', 'role', 'doctors'));
+            return view('doctor.doctors', compact('user', 'role', 'doctors', 'search', 'searchCRM'));
         } else {
             return view('error.403');
         }
@@ -98,13 +107,13 @@ class DoctorController extends Controller
             $slot_time = $request->slot_time;
             $validatedData = $request->validate(
                 [
-                    'full_name' => 'required|alpha',
+                    'full_name' => 'required',
                     'user_sex'=>'',
                     'zip_code'=>'',
                     'user_address'=>'',
                     'city'=>'',
-                    'mobile' => 'required|numeric|digits:11',
-                    'email' => 'required|email|unique:users',
+                    'mobile' => 'required',
+                    'email' => 'unique:users',
                     'doc_CPF',
                     'doc_CRM',
                     'doc_Advice',
@@ -318,15 +327,21 @@ class DoctorController extends Controller
         $user = Sentinel::getUser();
         if ($user->hasAccess('doctor.update')) {
             $validatedData = $request->validate([
-                'first_name' => 'alpha',
-                'last_name' => 'alpha',
-                'mobile' => 'numeric|digits:10',
-                'email' => 'email',
+                'full_name' => 'required|alpha',
+                'user_sex'=>'',
+                'zip_code'=>'',
+                'user_address'=>'',
+                'city'=>'',
+                'mobile' => 'required|numeric|digits:10',
+                'email' => 'required|email|unique:users',
+                'doc_CPF',
+                'doc_CRM',
+                'doc_Advice',
+                'doc_specialty',
                 'title' => '',
                 'fees' => '',
                 'degree' => '',
                 'experience' => '',
-                'profile_photo' =>'image|mimes:jpg,png,jpeg,gif,svg|max:500'
             ]);
             try {
                 $user = Sentinel::getUser();
@@ -342,43 +357,48 @@ class DoctorController extends Controller
                     $file->move(storage_path('app/public/images/users'), $imageName);
                     $doctor->profile_photo = $imageName;
                 }
-                $doctor->first_name = $validatedData['first_name'];
-                $doctor->last_name = $validatedData['last_name'];
+                $doctor->full_name = $validatedData['full_name'];
+                $doctor->user_sex = $validatedData['user_sex'];
+                $doctor->zip_code = $validatedData['zip_code'];
+                $doctor->user_address = $validatedData['user_address'];
+                $doctor->city = $validatedData['city'];
                 $doctor->mobile = $validatedData['mobile'];
                 $doctor->email = $validatedData['email'];
                 $doctor->updated_by = $user->id;
                 $doctor->save();
                 Doctor::where('user_id', $doctor->id)
                     ->update([
-                        'title' => $validatedData['title'],
-                        'degree' => $validatedData['degree'],
-                        'experience' => $validatedData['experience'],
-                        'fees' => $validatedData['fees'],
+                        'doc_CPF' => $validatedData['doc_CPF'],
+                        'doc_CRM' => $validatedData['doc_CRM'],
+                        'doc_Advice' => $validatedData['doc_Advice'],
+                        'doc_specialty' => $validatedData['doc_specialty'],
+
+
                     ]);
-                $availableDay = DoctorAvailableDay::where('doctor_id', $doctor->id)->first();
-                $availableDay->doctor_id = $doctor->id;
-                if ($availableDay->mon = $request->mon !== Null) {
-                    $availableDay->mon = $request->mon;
-                }
-                if ($availableDay->tue = $request->tue !== Null) {
-                    $availableDay->tue = $request->tue;
-                }
-                if ($availableDay->wen = $request->wen !== Null) {
-                    $availableDay->wen = $request->wen;
-                }
-                if ($availableDay->thu = $request->thu !== Null) {
-                    $availableDay->thu = $request->thu;
-                }
-                if ($availableDay->fri = $request->fri !== Null) {
-                    $availableDay->fri = $request->fri;
-                }
-                if ($availableDay->sat = $request->sat !== Null) {
-                    $availableDay->sat = $request->sat;
-                }
-                if ($availableDay->sun = $request->sun !== Null) {
-                    $availableDay->sun = $request->sun;
-                }
-                $availableDay->save();
+                //$availableDay = DoctorAvailableDay::where('doctor_id', $doctor->id)->first();
+//                $availableDay->doctor_id = $doctor->id;
+//                if ($availableDay->mon = $request->mon !== Null) {
+//                    $availableDay->mon = $request->mon;
+//                }
+//                if ($availableDay->tue = $request->tue !== Null) {
+//                    $availableDay->tue = $request->tue;
+//                }
+//                if ($availableDay->wen = $request->wen !== Null) {
+//                    $availableDay->wen = $request->wen;
+//                }
+//                if ($availableDay->thu = $request->thu !== Null) {
+//                    $availableDay->thu = $request->thu;
+//                }
+//                if ($availableDay->fri = $request->fri !== Null) {
+//                    $availableDay->fri = $request->fri;
+//                }
+//                if ($availableDay->sat = $request->sat !== Null) {
+//                    $availableDay->sat = $request->sat;
+//                }
+//                if ($availableDay->sun = $request->sun !== Null) {
+//                    $availableDay->sun = $request->sun;
+//                }
+//                $availableDay->save();
                 if ($role == 'doctor') {
                     return redirect('/')->with('success', 'Profile updated successfully!');
                 } else {
