@@ -237,6 +237,17 @@
                                         </div>
 
                                     </div>
+
+                                    <div class="row">
+                                        <div class="col-md-7 form-group">
+                                            <label class="control-label">{{ __('Password ') }}</label>
+                                            <input type="password" class="form-control"
+                                                   name="password"
+                                                   value="{{ old('password', $doctor->password) }}"
+                                                   placeholder="{{ __('Enter your password') }}">
+
+                                        </div>
+                                    </div>
                                 </div>
 
 

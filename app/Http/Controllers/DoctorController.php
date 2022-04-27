@@ -53,16 +53,18 @@ class DoctorController extends Controller
             $role = $user->roles[0]->slug;
             $user = Sentinel::getUser();
             $user_id = $user->id;
-            $doctor_sql = new Doctor();
-            $role = $user->roles[0]->slug;
+            $doctor = new Doctor();
+            //$role = $user->roles[0]->slug;
             $doctor_role = Sentinel::findRoleBySlug('doctor');
 
             $search = $request['search_name'] ? : "";
             $searchCRM = $request['search_crm'] ? : "";
 
-            //   ->orWhere('doc_CRM', $searchCRM)
+            //
             if ($search != '' OR $searchCRM != '') {
-                $doctors = $doctor_role->users()->with(['roles', 'doctor'])->where('full_name', $search)->orderByDesc('id')->paginate($this->limit);
+                $doctors = $doctor_role->users()->with(['roles', 'doctor'])
+                    ->join('doctors','doctors.user_id','=','users.id')
+                    ->where('full_name', $search)->orWhere('doctors.doc_CRM', $searchCRM)->orderByDesc('id')->paginate($this->limit);
             } else
              if ($role == 'receptionist') {
                 $prescriptions_doctor = ReceptionListDoctor::where('reception_id', $user_id)->pluck('doctor_id');
@@ -122,6 +124,7 @@ class DoctorController extends Controller
                     'fees' => '',
                     'degree' => '',
                     'experience' => '',
+                    'password' => '',
                     'slot_time' => '',
 //                    'mon' => 'required_without_all:tue,wen,thu,fri,sat,sun',
 //                    'tue' => 'required_without_all:mon,wen,thu,fri,sat,sun',

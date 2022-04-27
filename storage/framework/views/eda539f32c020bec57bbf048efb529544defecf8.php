@@ -28,7 +28,9 @@
                                     </a>
                                 <?php endif; ?>
                             </div>
+
                             <div class="col-lg-9 text-right">
+
                                 <form action="">
                                     <div class="form-group d-inline-flex">
                                         <input class="form-control mr-1" type="text" placeholder="Search CRM" name="search_crm" value="<?php echo e($searchCRM); ?>" />
@@ -37,6 +39,7 @@
                                     </div>
                                 </form>
                             </div>
+
                         </div>
 
 
@@ -52,6 +55,8 @@
                                     <?php if($role != 'patient'): ?>
                                         <th><?php echo e(__('Option')); ?></th>
                                     <?php endif; ?>
+
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -75,6 +80,7 @@
                                             <?php echo e($item->full_name); ?>
 
                                         </td>
+
                                         <td> <?php echo e($item->doctor['doc_CRM']); ?> </td>
                                         <td> <?php echo e($item->mobile); ?> </td>
                                         <td> <?php echo e($item->email); ?> </td>

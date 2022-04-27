@@ -27,7 +27,9 @@
                                     </a>
                                 @endif
                             </div>
+
                             <div class="col-lg-9 text-right">
+
                                 <form action="">
                                     <div class="form-group d-inline-flex">
                                         <input class="form-control mr-1" type="text" placeholder="Search CRM" name="search_crm" value="{{$searchCRM}}" />
@@ -36,6 +38,7 @@
                                     </div>
                                 </form>
                             </div>
+
                         </div>
 
 
@@ -51,6 +54,8 @@
                                     @if ($role != 'patient')
                                         <th>{{ __('Option') }}</th>
                                     @endif
+
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -73,6 +78,7 @@
                                         <td>
                                             {{ $item->full_name }}
                                         </td>
+
                                         <td> {{ $item->doctor['doc_CRM'] }} </td>
                                         <td> {{ $item->mobile }} </td>
                                         <td> {{ $item->email }} </td>
