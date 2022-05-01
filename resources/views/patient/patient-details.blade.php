@@ -101,13 +101,17 @@
                                             {{--</span>--}}
                                             {{--@enderror--}}
                                         </div>
+
                                         <div class="col-md-4">
+
                                             <label class="control-label">{{ __(' Sex ') }}<span
                                                         class="text-danger">*</span></label>
                                             <select class="form-control" name="user_sex">
-                                                <option selected disabled>Choose</option>
-                                                <option>Male</option>
-                                                <option>Female</option>
+
+                                                <option selected disabled>{{ __('-- Select Gender --') }} </option>
+                                                <option value="Male" @if (($patient_info && $patient->user_sex == 'Male') || old('user_sex') == 'Male') selected @endif>{{ __('Male') }}</option>
+                                                <option value="Female" @if (($patient_info && $patient->user_sex == 'Female') || old('user_sex') == 'Female') selected @endif>{{ __('Female') }}
+                                                </option>
 
                                             </select>
 
@@ -123,7 +127,7 @@
                                             <input type="date"
                                                    class="form-control @error('patient_dob') is-invalid @enderror"
                                                    name="patient_dob" id="" tabindex="1"
-                                                   value="@if ($patient && $patient_info){{ $patient->patient_dob }}@elseif(old('patient_dob')){{ old('patient_dob') }}@endif"
+                                                   value="@if ($patient && $patient_info){{ $patient_info->patient_dob }}@elseif(old('patient_dob')){{ old('patient_dob') }}@endif"
                                                    placeholder="{{ __('') }}">
 
                                             {{--@error('patient_dob')--}}
@@ -142,7 +146,7 @@
                                             <input type="text"
                                                    class="form-control"
                                                    name="patient_Age" id="" tabindex="1"
-                                                   value="@if ($patient && $patient_info){{ $patient->patient_Age }}@elseif(old('patient_Age')){{ old('patient_Age') }}@endif"
+                                                   value="@if ($patient && $patient_info){{ $patient_info->patient_Age }}@elseif(old('patient_Age')){{ old('patient_Age') }}@endif"
                                                    placeholder="{{ __('') }}">
 
                                         </div>
@@ -153,7 +157,7 @@
                                             <input type="text"
                                                    class="form-control"
                                                    name="patient_rg" id="" tabindex="1"
-                                                   value="@if ($patient && $patient_info){{ $patient->patient_rg }}@elseif(old('patient_rg')){{ old('patient_rg') }}@endif"
+                                                   value="@if ($patient && $patient_info){{ $patient_info->patient_rg }}@elseif(old('patient_rg')){{ old('patient_rg') }}@endif"
                                                    placeholder="{{ __('') }}">
 
                                         </div>
@@ -164,7 +168,7 @@
                                             <input type="text"
                                                    class="form-control @error('patient_CPF') is-invalid @enderror"
                                                    name="patient_CPF" id="" tabindex="1"
-                                                   value="@if ($patient && $patient_info){{ $patient->patient_CPF }}@elseif(old('patient_CPF')){{ old('patient_CPF') }}@endif"
+                                                   value="@if ($patient && $patient_info){{ $patient_info->patient_CPF }}@elseif(old('patient_CPF')){{ old('patient_CPF') }}@endif"
                                                    placeholder="{{ __('') }}">
 
                                             @error('doc_CPF')
@@ -172,6 +176,18 @@
                                                     <strong>{{ $message }}</strong>
                                                 </span>
                                             @enderror
+
+                                        </div>
+
+                                        <div class="col-md-6 form-group">
+                                            <label class="control-label">{{ __('Responsible') }}<span
+                                                        class="text-danger">*</span></label>
+
+                                            <input type="text" class="form-control"
+                                                   name="patient_responsible"
+                                                   value="@if ($patient && $patient_info){{ $patient_info->patient_responsible }}@elseif(old('patient_responsible')){{ old('patient_responsible') }}@endif"
+
+                                                   placeholder="{{ __('') }}" />
 
                                         </div>
 
@@ -191,6 +207,7 @@
                                                         class="text-danger">*</span></label>
                                             <input type="text"
                                                    class="form-control"
+                                                   value="@if ($patient && $patient_info){{ $patient->zip_code }}@elseif(old('zip_code')){{ old('zip_code') }}@endif"
                                                    name="zip_code" id=""
                                                    placeholder="{{ __('Zipcode') }}">
 
@@ -200,6 +217,7 @@
                                                         class="text-danger">*</span></label>
                                             <input type="text"
                                                    class="form-control"
+                                                   value="@if ($patient && $patient_info){{ $patient->user_address }}@elseif(old('user_address')){{ old('user_address') }}@endif"
                                                    name="user_address" id=""
                                                    placeholder="{{ __('Address') }}">
                                         </div>
@@ -211,7 +229,7 @@
                                                         class="text-danger">*</span></label>
                                             <input type="text" class="form-control"
                                                    name="city"
-                                                   value="@if ($patient && $patient_info){{ $patient->user_city }}@elseif(old('user_city')){{ old('user_city') }}@endif"
+                                                   value="@if ($patient && $patient_info){{ $patient->city }}@elseif(old('city')){{ old('city') }}@endif"
                                                    placeholder="{{ __('city') }}">
 
                                         </div>
@@ -228,21 +246,13 @@
 
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-6 form-group">
-                                            <label class="control-label">{{ __('Responsible') }}<span
-                                                        class="text-danger">*</span></label>
-
-                                            <input type="text" class="form-control"
-                                                   name="patient_responsible"
-                                                   placeholder="{{ __('') }}" />
-
-                                        </div>
 
                                         <div class="col-md-6 form-group">
                                             <label class="control-label">{{ __('Email ') }}<span
                                                         class="text-danger">*</span></label>
                                             <input type="email" class="form-control @error('email') is-invalid @enderror"
-                                                   name="email" id="email" value="@if ($patient && $patient_info){{ $patient->email }}@elseif(old('email')){{ old('email') }}@endif"
+                                                   name="email" id="email"
+                                                   value="@if ($patient && $patient_info){{ $patient->email }}@elseif(old('email')){{ old('email') }}@endif"
                                                    placeholder="{{ __('Enter Email') }}">
                                             @error('email')
                                             <span class="invalid-feedback" role="alert">
@@ -250,6 +260,16 @@
                                                 </span>
                                             @enderror
                                         </div>
+
+                                        <div class="col-md-6 form-group">
+                                                <label class="control-label">{{ __('Password ') }}</label>
+                                                <input type="password" class="form-control"
+                                                       name="password"
+                                                       value="@if ($patient && $patient_info){{ $patient->password }}@elseif(old('password')){{ old('password') }}@endif"
+                                                       placeholder="{{ __('Enter your password') }}">
+
+                                         </div>
+
 
                                     </div>
                                 </div>
@@ -264,7 +284,7 @@
                                                 class="text-danger">*</span></label>
 
                                     <input type="text" class="form-control @error('email') is-invalid @enderror"
-                                           name="patient_health" value="@if ($patient && $patient_info){{ $patient->patient_health }}@elseif(old('patient_health')){{ old('patient_health') }}@endif"
+                                           name="patient_health" value="@if ($patient && $patient_info){{ $patient_info->patient_health }}@elseif(old('patient_health')){{ old('patient_health') }}@endif"
                                            placeholder="{{ __('') }}">
 
                                 </div>
@@ -274,7 +294,7 @@
                                                 class="text-danger">*</span></label>
 
                                     <input type="text" class="form-control @error('patient_company') is-invalid @enderror"
-                                           name="patient_company" value="@if ($patient && $patient_info){{ $patient->patient_company }}@elseif(old('patient_company')){{ old('patient_company') }}@endif"
+                                           name="patient_company" value="@if ($patient && $patient_info){{ $patient_info->patient_company }}@elseif(old('patient_company')){{ old('patient_company') }}@endif"
                                            placeholder="{{ __('') }}">
 
                                 </div>
@@ -285,7 +305,7 @@
                                                 class="text-danger">*</span></label>
 
                                     <input type="text" class="form-control @error('patient_enrollment') is-invalid @enderror"
-                                           name="patient_enrollment" value="@if ($patient && $patient_info){{ $patient->patient_enrollment }}@elseif(old('patient_enrollment')){{ old('patient_enrollment') }}@endif"
+                                           name="patient_enrollment" value="@if ($patient && $patient_info){{ $patient_info->patient_enrollment }}@elseif(old('patient_enrollment')){{ old('patient_enrollment') }}@endif"
                                            placeholder="{{ __('') }}">
 
                                 </div>
@@ -295,7 +315,7 @@
                                                 class="text-danger">*</span></label>
 
                                     <input type="text" class="form-control @error('patient_plan') is-invalid @enderror"
-                                           name="patient_plan" value="@if ($patient && $patient_info){{ $patient->patient_plan }}@elseif(old('patient_plan')){{ old('patient_plan') }}@endif"
+                                           name="patient_plan" value="@if ($patient && $patient_info){{ $patient_info->patient_plan }}@elseif(old('patient_plan')){{ old('patient_plan') }}@endif"
                                            placeholder="{{ __('') }}">
 
                                 </div>
@@ -305,7 +325,7 @@
                                                 class="text-danger">*</span></label>
 
                                     <input type="text" class="form-control @error('patient_observation') is-invalid @enderror"
-                                           name="patient_observation" value="@if ($patient && $patient_info){{ $patient->patient_observation }}@elseif(old('patient_observation')){{ old('patient_observation') }}@endif"
+                                           name="patient_observation" value="@if ($patient && $patient_info){{ $patient_info->patient_observation }}@elseif(old('patient_observation')){{ old('patient_observation') }}@endif"
                                            placeholder="{{ __('') }}">
 
                                 </div>
@@ -315,7 +335,7 @@
                                                 class="text-danger">*</span></label>
 
                                     <input type="text" class="form-control @error('patient_social_name') is-invalid @enderror"
-                                           name="patient_social_name" value="@if ($patient && $patient_info){{ $patient->patient_social_name }}@elseif(old('patient_social_name')){{ old('patient_social_name') }}@endif"
+                                           name="patient_social_name" value="@if ($patient && $patient_info){{ $patient_info->patient_social_name }}@elseif(old('patient_social_name')){{ old('patient_social_name') }}@endif"
                                            placeholder="{{ __('') }}">
 
                                 </div>
@@ -599,7 +619,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <button type="submit" class="btn btn-primary">
-                                        @if ($patient && $patient_info && $medical_info)
+                                        @if ($patient && $patient_info)
                                             {{ __('Update Patient Details') }}
                                         @else
                                             {{ __('Add New Patient') }}

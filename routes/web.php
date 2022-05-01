@@ -108,4 +108,17 @@ Route::get('paymentComplete', [StripePaymentController::class, 'payment_complete
 // Payment Api key add
 Route::resource('payment-key','PaymentApiController');
 
+//Exam
+    Route::get('/listexam', function () {
+        return view('exam.examlist');
+    })->name('listexam');
+
+    Route::get('/register-exam', function () {
+        return view('exam.registerexam');
+    })->name('registerexam');
+
+    Route::get('/add-category', function () {
+        return view('exam.addcategory');
+    })->name('addcategory');
+
 });

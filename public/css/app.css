@@ -9,3 +9,8 @@
   overflow: inherit;
 }
 
+@media (min-width: 1200px) {
+  body .container-fluid {
+    max-width: 90% !important;
+  }
+}

@@ -45,14 +45,25 @@ class PatientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $user = Sentinel::getUser();
         if ($user->hasAccess('patient.list')) {
             $role = $user->roles[0]->slug;
             $patient_role = Sentinel::findRoleBySlug('patient');
             $patients = $patient_role->users()->with(['roles'])->where('is_deleted', 0)->orderByDesc('id')->paginate($this->limit);
-            return view('patient.patients', compact('user', 'role', 'patients'));
+
+            $search = $request['search_name'] ? : "";
+            $searchCRM = $request['search_crm'] ? : "";
+
+            if ($search != '' OR $searchCRM != '') {
+                $patients = $patient_role->users()->with(['roles', 'patient'])
+                    ->join('patients','patients.user_id','=','users.id')
+                    ->where('full_name', $search)->orWhere('patients.patient_CPF', $searchCRM)->orderByDesc('id')->paginate($this->limit);
+            }
+
+
+            return view('patient.patients', compact('user', 'role', 'patients', 'search', 'searchCRM'));
         } else {
              return view('error.403');
 
@@ -262,22 +273,25 @@ class PatientController extends Controller
         $user = Sentinel::getUser();
         if ($user->hasAccess('patient.update')) {
             $validatedData = $request->validate([
-                'first_name' => 'required|alpha',
-                'last_name' => 'required|alpha',
-                'mobile' => 'required|numeric|digits:10',
-                'email' => 'required|email',
-                'age' => 'required|numeric',
-                'address' => 'required',
-                'gender' => 'required',
-                'height' => 'required',
-                'b_group' => 'required',
-                'pulse' => 'required',
-                'allergy' => 'required',
-                'weight' => 'required',
-                'b_pressure' => 'required',
-                'respiration' => 'required',
-                'diet' => 'required',
-                'profile_photo'=>'image|mimes:jpg,png,jpeg,gif,svg|max:500'
+                'full_name' => '',
+                'user_sex'=>'',
+                'zip_code'=>'',
+                'user_address'=>'',
+                'city'=>'',
+                'patient_dob'=>'',
+                'patient_Age'=>'',
+                'patient_rg'=>'',
+                'patient_CPF'=>'',
+                'patient_responsible'=>'',
+                'patient_health'=>'',
+                'patient_company'=>'',
+                'patient_enrollment'=>'',
+                'patient_plan'=>'',
+                'patient_observation'=>'',
+                'patient_social_name'=>'',
+
+                'mobile' => '',
+                'email' => '',
             ]);
             try {
                 $user = Sentinel::getUser();
@@ -293,8 +307,15 @@ class PatientController extends Controller
                     $file->move(storage_path('app/public/images/users'), $imageName);
                     $patient->profile_photo = $imageName;
                 }
-                $patient->first_name = $validatedData['first_name'];
-                $patient->last_name = $validatedData['last_name'];
+
+
+              //  $patient_details->save();
+
+                $patient->full_name = $validatedData['full_name'];
+                $patient->user_sex = $validatedData['user_sex'];
+                $patient->zip_code = $validatedData['zip_code'];
+                $patient->user_address = $validatedData['user_address'];
+                $patient->city = $validatedData['city'];
                 $patient->mobile = $validatedData['mobile'];
                 $patient->email = $validatedData['email'];
                 $patient->updated_by = $user->id;
@@ -302,45 +323,68 @@ class PatientController extends Controller
                 $patient_info= Patient::where('user_id', '=', $patient->id)->first();
                     if($patient_info == null){
                         $patient_info = new Patient();
-                        $patient_info->age = $request->age;
-                        $patient_info->gender = $request->gender;
-                        $patient_info->address = $request->address;
+                        $patient_info->patient_dob = $request->patient_dob;
+                        $patient_info->patient_Age = $request->patient_Age;
+                        $patient_info->patient_rg = $request->patient_rg;
+
+                        $patient_info->patient_CPF = $request->patient_CPF;
+                        $patient_info->patient_responsible = $request->patient_responsible;
+                        $patient_info->patient_health = $request->patient_health;
+                        $patient_info->patient_company = $request->patient_company;
+                        $patient_info->patient_enrollment = $request->patient_enrollment;
+
+                        $patient_info->patient_plan = $request->patient_plan;
+                        $patient_info->patient_observation = $request->patient_observation;
+                        $patient_info->patient_social_name = $request->patient_social_name;
+
                         $patient_info->user_id = $patient->id;
                         $patient_info->save();
                     }
                     else{
-                        $patient_info->age = $request->age;
-                        $patient_info->gender = $request->gender;
-                        $patient_info->address = $request->address;
+
+                        $patient_info->patient_dob = $request->patient_dob;
+                        $patient_info->patient_Age = $request->patient_Age;
+                        $patient_info->patient_rg = $request->patient_rg;
+
+                        $patient_info->patient_CPF = $request->patient_CPF;
+                        $patient_info->patient_responsible = $request->patient_responsible;
+                        $patient_info->patient_health = $request->patient_health;
+                        $patient_info->patient_company = $request->patient_company;
+                        $patient_info->patient_enrollment = $request->patient_enrollment;
+
+                        $patient_info->patient_plan = $request->patient_plan;
+                        $patient_info->patient_observation = $request->patient_observation;
+                        $patient_info->patient_social_name = $request->patient_social_name;
+
                         $patient_info->user_id = $patient->id;
                         $patient_info->save();
                     }
-                    $medical_info = MedicalInfo::where('user_id', '=', $patient->id)->first();
-                    if($medical_info == null){
-                        $medical_info = new MedicalInfo();
-                        $medical_info->height = $request->height;
-                        $medical_info->b_group = $request->b_group;
-                        $medical_info->pulse = $request->pulse;
-                        $medical_info->allergy = $request->allergy;
-                        $medical_info->weight = $request->weight;
-                        $medical_info->b_pressure = $request->b_pressure;
-                        $medical_info->respiration = $request->respiration;
-                        $medical_info->diet = $request->diet;
-                        $medical_info->user_id = $patient->id;
-                        $medical_info->save();
-                    }
-                    else{
-                        $medical_info->height = $request->height;
-                        $medical_info->b_group = $request->b_group;
-                        $medical_info->pulse = $request->pulse;
-                        $medical_info->allergy = $request->allergy;
-                        $medical_info->weight = $request->weight;
-                        $medical_info->b_pressure = $request->b_pressure;
-                        $medical_info->respiration = $request->respiration;
-                        $medical_info->diet = $request->diet;
-                        $medical_info->user_id = $patient->id;
-                        $medical_info->save();
-                    }
+//                    $medical_info = MedicalInfo::where('user_id', '=', $patient->id)->first();
+//                    if($medical_info == null){
+//                        $medical_info = new MedicalInfo();
+//                        $medical_info->height = $request->height;
+//                        $medical_info->b_group = $request->b_group;
+//                        $medical_info->pulse = $request->pulse;
+//                        $medical_info->allergy = $request->allergy;
+//                        $medical_info->weight = $request->weight;
+//                        $medical_info->b_pressure = $request->b_pressure;
+//                        $medical_info->respiration = $request->respiration;
+//                        $medical_info->diet = $request->diet;
+//                        $medical_info->user_id = $patient->id;
+//                        $medical_info->save();
+//                    }
+//                    else{
+//                        $medical_info->height = $request->height;
+//                        $medical_info->b_group = $request->b_group;
+//                        $medical_info->pulse = $request->pulse;
+//                        $medical_info->allergy = $request->allergy;
+//                        $medical_info->weight = $request->weight;
+//                        $medical_info->b_pressure = $request->b_pressure;
+//                        $medical_info->respiration = $request->respiration;
+//                        $medical_info->diet = $request->diet;
+//                        $medical_info->user_id = $patient->id;
+//                        $medical_info->save();
+//                    }
                 if ($role == 'patient') {
                     return redirect('/')->with('success', 'Profile updated successfully!');
                 } else {

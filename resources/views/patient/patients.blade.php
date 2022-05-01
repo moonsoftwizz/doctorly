@@ -16,11 +16,27 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <a href=" {{ route('patient.create') }} ">
-                            <button type="button" class="btn btn-primary waves-effect waves-light mb-4">
-                                <i class="bx bx-plus font-size-16 align-middle mr-2"></i> {{ __('New Patient') }}
-                            </button>
-                        </a>
+
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <a href=" {{ route('patient.create') }} ">
+                                    <button type="button" class="btn btn-primary waves-effect waves-light mb-4">
+                                        <i class="bx bx-plus font-size-16 align-middle mr-2"></i> {{ __('New Patient') }}
+                                    </button>
+                                </a>
+                            </div>
+                            <div class="col-lg-9 text-right">
+                                <form action="">
+                                    <div class="form-group d-inline-flex">
+                                        <input class="form-control mr-1" type="text" placeholder="Search CPF" name="search_crm" value="{{$searchCRM}}" />
+                                        <input class="form-control mr-1" type="text" placeholder="Search Name" name="search_name" value="{{$search}}" />
+                                        <button type="submit" value="" class="btn btn-primary">Filter</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+
                         <table class="table table-bordered dt-responsive nowrap"
                             style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
@@ -70,13 +86,13 @@
 
 
                                         <td>
-                                            <a href="{{ url('patient/' . $patient->id) }}">
-                                                <button type="button"
-                                                    class="btn btn-primary btn-sm btn-rounded waves-effect waves-light mb-2 mb-md-0"
-                                                    title="View Profile">
-                                                    <i class="mdi mdi-eye"></i>
-                                                </button>
-                                            </a>
+                                            {{--<a href="{{ url('patient/' . $patient->id) }}">--}}
+                                                {{--<button type="button"--}}
+                                                    {{--class="btn btn-primary btn-sm btn-rounded waves-effect waves-light mb-2 mb-md-0"--}}
+                                                    {{--title="View Profile">--}}
+                                                    {{--<i class="mdi mdi-eye"></i>--}}
+                                                {{--</button>--}}
+                                            {{--</a>--}}
                                             <a href="{{ url('patient/' . $patient->id . '/edit') }}">
                                                 <button type="button"
                                                     class="btn btn-primary btn-sm btn-rounded waves-effect waves-light mb-2 mb-md-0"
