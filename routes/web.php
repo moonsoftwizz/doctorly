@@ -112,7 +112,7 @@ Route::resource('payment-key','PaymentApiController');
 
 //Exam
     Route::get('exam', [ExamController::class, 'index'])->name('view_exam');
-    Route::get('exam', [ExamController::class, 'create'])->name('add_exam');
+    Route::get('add-exam', [ExamController::class, 'create'])->name('add_exam');
 
     // Categories
     Route::get('category', [Category::class, 'index'])->name('category');

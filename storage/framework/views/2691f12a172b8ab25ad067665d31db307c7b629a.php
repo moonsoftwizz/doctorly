@@ -75,7 +75,7 @@
                                         class="arrow-down"></div>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="topnav-layout">
-                                <a class="dropdown-item" href="<?php echo e(url('pending-appointment')); ?>">
+                                <a class="dropdown-item" href="<?php echo e(route('view_exam')); ?>">
                                     <?php echo e(__('List of Exams')); ?>
 
                                 </a>

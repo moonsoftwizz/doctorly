@@ -17,7 +17,7 @@
                         <div class="col-lg-12">
                             <div class="detail_box">
                                 <div class="detail_box">
-                                    <form action="" name="doctorform" class="" method="post">
+                                    <form action="{{ route('CreateCategory') }}" name="doctorform" class="" method="post">
                                         @csrf
 
                                         <table class="table sislac_table table_form">

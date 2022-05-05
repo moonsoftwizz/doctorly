@@ -72,7 +72,7 @@
                                         class="arrow-down"></div>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="topnav-layout">
-                                <a class="dropdown-item" href="{{ url('pending-appointment') }}">
+                                <a class="dropdown-item" href="{{ route('view_exam') }}">
                                     {{ __('List of Exams') }}
                                 </a>
                                 <a class="dropdown-item" href="{{ route('add_exam') }}">

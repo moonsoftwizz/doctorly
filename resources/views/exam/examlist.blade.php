@@ -12,7 +12,10 @@
             </div>
         </div>
 
-        <div class="row">
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
             <div class="col-lg-12">
                 <div class="detail_box">
                     <table class="table sislac_table table_form">
@@ -34,6 +37,8 @@
                         </th>
                         </tbody>
                     </table>
+                </div>
+            </div>
                 </div>
             </div>
         </div>
