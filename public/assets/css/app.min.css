@@ -10,6 +10,19 @@ Contact: support@themesbrand.com
 File: Main Css File
 */
 
+.exam_form input{
+    width: 100%;
+}
+.exam_form thead{
+    background: #F8F9FA;
+    padding: 23px;
+    height: 36px;
+    font-size: 13px;
+    font-weight: 300;
+}
+.exam_form thead th{
+    font-weight: 500;
+}
 #page-topbar {
     position: fixed;
     top: 0;

@@ -68,12 +68,28 @@
                         </li>
 
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="<?php echo e(url('transaction')); ?>">
-                                <i class='bx bx-list-check mr-2'></i><?php echo e(__('Transaction')); ?>
-
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-layout" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class='bx bx-list-plus mr-2'></i><?php echo e(__('Exam')); ?> <div
+                                        class="arrow-down"></div>
                             </a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="topnav-layout">
+                                <a class="dropdown-item" href="<?php echo e(url('pending-appointment')); ?>">
+                                    <?php echo e(__('List of Exams')); ?>
+
+                                </a>
+                                <a class="dropdown-item" href="<?php echo e(route('add_exam')); ?>">
+                                    <?php echo e(__('Add New Exam')); ?>
+
+                                </a>
+                                <a class="dropdown-item" href="<?php echo e(route('category')); ?>">
+                                    <?php echo e(__('Category')); ?>
+
+                                </a>
+                            </div>
                         </li>
+
                     <?php elseif($role == 'doctor'): ?>
                         <li class="nav-item">
                             <a class="nav-link" href="<?php echo e(route('appointment.create')); ?>">

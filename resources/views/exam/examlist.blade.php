@@ -1,7 +1,10 @@
-@extends('welcome')
-@section('title', 'Appointment')
+@extends('layouts.master-layouts')
+@section('title') {{ __('Appointment list') }} @endsection
 
-@section('content')
+@section('body')
+    <body data-topbar="dark" data-layout="horizontal">
+    @endsection
+    @section('content')
     <div class="content">
         <div class="row">
             <div class="col-lg-12">
@@ -12,7 +15,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="detail_box">
-                    <table class="table sislac_table">
+                    <table class="table sislac_table table_form">
                         <thead>
                         <tr>
                             <th>Abbreviation</th>
@@ -34,6 +37,7 @@
                 </div>
             </div>
         </div>
+
 
 
 @endsection

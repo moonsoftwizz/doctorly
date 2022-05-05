@@ -3,6 +3,8 @@
 use App\Http\Controllers\RazorpayPaymentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StripePaymentController;
+use App\Http\Controllers\ExamController;
+use App\Http\Controllers\Category;
 
 /*
 |--------------------------------------------------------------------------
@@ -109,16 +111,12 @@ Route::get('paymentComplete', [StripePaymentController::class, 'payment_complete
 Route::resource('payment-key','PaymentApiController');
 
 //Exam
-    Route::get('/listexam', function () {
-        return view('exam.examlist');
-    })->name('listexam');
+    Route::get('exam', [ExamController::class, 'index'])->name('view_exam');
+    Route::get('exam', [ExamController::class, 'create'])->name('add_exam');
 
-    Route::get('/register-exam', function () {
-        return view('exam.registerexam');
-    })->name('registerexam');
+    // Categories
+    Route::get('category', [Category::class, 'index'])->name('category');
+    Route::get('create-category', [Category::class, 'create'])->name('CreateCategory');
 
-    Route::get('/add-category', function () {
-        return view('exam.addcategory');
-    })->name('addcategory');
 
 });
