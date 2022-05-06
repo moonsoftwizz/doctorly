@@ -4,7 +4,7 @@ use App\Http\Controllers\RazorpayPaymentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StripePaymentController;
 use App\Http\Controllers\ExamController;
-use App\Http\Controllers\Category;
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -113,10 +113,12 @@ Route::resource('payment-key','PaymentApiController');
 //Exam
     Route::get('exam', [ExamController::class, 'index'])->name('view_exam');
     Route::get('add-exam', [ExamController::class, 'create'])->name('add_exam');
+    Route::post('store-exam', [ExamController::class, 'store'])->name('StoreExam');
 
-    // Categories
-    Route::get('category', [Category::class, 'index'])->name('category');
-    Route::get('create-category', [Category::class, 'create'])->name('CreateCategory');
+// Categories
+    Route::get('category', [CategoryController::class, 'index'])->name('category');
+    Route::get('create-category', [CategoryController::class, 'create'])->name('CreateCategory');
+    Route::post('store-category', [CategoryController::class, 'store'])->name('StoreCategory');
 
 
 });

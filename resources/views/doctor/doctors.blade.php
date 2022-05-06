@@ -71,6 +71,7 @@
                                 @php
                                     $currentpage = $doctors->currentPage();
                                 @endphp
+
                                 @foreach ($doctors as $key => $item)
                                     <tr>
 

@@ -17,7 +17,7 @@
                         <div class="col-lg-12">
                             <div class="detail_box">
                                 <div class="detail_box">
-                                    <form action="{{ route('CreateCategory') }}" name="doctorform" class="" method="post">
+                                    <form action="{{ route('StoreCategory') }}" name="doctorform" class="" method="post">
                                         @csrf
 
                                         <table class="table sislac_table table_form">
@@ -30,8 +30,8 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <th><input class="form-control" type="text" /></th>
-                                            <th><input class="form-control" type="text" /></th>
+                                            <th><input class="form-control" name="abbreviation" type="text" /></th>
+                                            <th><input class="form-control" name="category_name" type="text" /></th>
 
                                             </tbody>
                                         </table>

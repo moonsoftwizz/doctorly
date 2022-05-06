@@ -11,7 +11,7 @@
 
                     <a href="{{route('CreateCategory')}}">
                         <button type="button" class="btn btn-primary waves-effect waves-light mb-4">
-                            <i class="bx bx-plus font-size-16 align-middle mr-2"></i> {{ __('New Category') }}
+                            <i class="bx bx-plus font-size-16 align-middle mr-2"></i> {{ __('Add New Category') }}
                         </button>
                     </a>
 
@@ -21,7 +21,7 @@
 
                 <form action="">
                     <div class="form-group d-inline-flex">
-                        <input class="form-control mr-1" type="text" placeholder="Search AB" name="search_crm"  />
+                        <input class="form-control mr-1" type="text" placeholder="Search AB" name="search_abbreviation"  />
                         <input class="form-control mr-1" type="text" placeholder="Search Name" name="search_name"  />
                         <button type="submit" value="" class="btn btn-primary">Filter</button>
                     </div>
@@ -45,29 +45,33 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <th>AB</th>
-                                <th>Name</th>
+
+                                    @foreach ($category as $key => $item)
+                                        <tr>
+                                            <th> {{ $item->abbreviation }}</th>
+                                            <th> {{ $item->name }}</th>
 
 
-                                <th>
-                                    <a href="">
-                                        <button type="button"
-                                                class="btn btn-primary btn-sm btn-rounded waves-effect waves-light mb-2 mb-md-0"
-                                                title="Update Profile">
-                                            <i class="mdi mdi-lead-pencil"></i>
-                                        </button>
-                                    </a>
-                                    <a href=" javascript:void(0) ">
-                                        <button type="button"
-                                                class="btn btn-primary btn-sm btn-rounded waves-effect waves-light mb-2 mb-md-0"
-                                                title="Deactivate Profile"
-                                                id="delete-doctor">
-                                            <i class="mdi mdi-trash-can"></i>
-                                        </button>
-                                    </a>
-                                </th>
+                                            <th>
+                                                <a href="">
+                                                    <button type="button"
+                                                            class="btn btn-primary btn-sm btn-rounded waves-effect waves-light mb-2 mb-md-0"
+                                                            title="Update Profile">
+                                                        <i class="mdi mdi-lead-pencil"></i>
+                                                    </button>
+                                                </a>
+                                                <a href=" javascript:void(0) ">
+                                                    <button type="button"
+                                                            class="btn btn-primary btn-sm btn-rounded waves-effect waves-light mb-2 mb-md-0"
+                                                            title="Deactivate Profile"
+                                                            id="delete-doctor">
+                                                        <i class="mdi mdi-trash-can"></i>
+                                                    </button>
+                                                </a>
+                                            </th>
 
-                                </th>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
