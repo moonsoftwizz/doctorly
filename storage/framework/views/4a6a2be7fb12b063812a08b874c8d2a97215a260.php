@@ -1,0 +1,30 @@
+<?php $__env->startSection('title'); ?> <?php echo e(__("403 Forbidden")); ?> <?php $__env->stopSection(); ?>
+<?php $__env->startSection('body'); ?>
+<body>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+    <div class="account-pages my-5 pt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="text-center mb-5">
+                        <h1 class="display-2 font-weight-medium">4<i class="bx bx-buoy bx-spin text-primary display-3"></i>3</h1>
+                        <h4 class="text-uppercase"><?php echo e(__("Sorry, Forbidden")); ?></h4>
+                        <div class="mt-5 text-center">
+                            <a class="btn btn-primary waves-effect waves-light" href="<?php echo e(url('/')); ?>"><?php echo e(__("Back to Home")); ?></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-xl-6">
+                    <div>
+                        <img src="<?php echo e(URL::asset('assets/images/error-img.png')); ?>" alt="" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.master-without-nav', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp3\htdocs\doctorly\resources\views/error/403.blade.php ENDPATH**/ ?>
