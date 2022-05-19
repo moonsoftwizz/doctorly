@@ -60,14 +60,14 @@
                             <th> {{ $item->destiny }} </th>
                             <th> {{ $item->label_group }} </th>
                             <th>
-                                <a href="">
+                                <a href="{{ url('exam/' . $item->id . '/edit') }}">
                                     <button type="button"
                                             class="btn btn-primary btn-sm btn-rounded waves-effect waves-light mb-2 mb-md-0"
                                             title="Update Profile">
                                         <i class="mdi mdi-lead-pencil"></i>
                                     </button>
                                 </a>
-                                <a href=" javascript:void(0) ">
+                                <a href="{{ url('exam-delete/'. $item->id) }}">
                                     <button type="button"
                                             class="btn btn-primary btn-sm btn-rounded waves-effect waves-light mb-2 mb-md-0"
                                             title="Deactivate Profile"
@@ -88,7 +88,7 @@
                 </div>
             </div>
         </div>
-
+    </div>
 
 
 @endsection

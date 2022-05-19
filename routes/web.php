@@ -114,6 +114,12 @@ Route::resource('payment-key','PaymentApiController');
     Route::get('exam', [ExamController::class, 'index'])->name('view_exam');
     Route::get('add-exam', [ExamController::class, 'create'])->name('add_exam');
     Route::post('store-exam', [ExamController::class, 'store'])->name('StoreExam');
+    Route::get('exam/{id}/edit', [ExamController::class, 'edit'])->name('editExam');
+    Route::post('exam-update/{id}', [ExamController::class, 'update']);
+    Route::get('exam-delete/{id}', [ExamController::class, 'delete']);
+    Route::post('store-parameter', [ExamController::class, 'store_parameter'])->name('StoreParameter');
+    Route::get('parameter/{id}', [ExamController::class, 'getParameterDetails']);
+    Route::delete('parameter/{id}', [ExamController::class, 'deleteParameter']);
 
 // Categories
     Route::get('category', [CategoryController::class, 'index'])->name('category');
